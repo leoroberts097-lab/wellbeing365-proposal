@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellbeing365 x WhiteHorse AI</title>
+  <style>
+    :root {
+      --bg: #f4f2eb;
+      --paper: #fffdf8;
+      --ink: #171917;
+      --muted: #5f655e;
+      --line: rgba(23,25,23,0.12);
+      --dark: #0f1713;
+      --green: #5f9387;
+      --deep-green: #244a42;
+      --gold: #b8965d;
+      --blue: #4c90ad;
+      --shadow: 0 26px 70px rgba(0,0,0,0.14);
+      --max: 1220px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #fbfaf6 0%, var(--bg) 100%);
+      color: var(--ink);
+      overflow-x: hidden;
+      letter-spacing: 0;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, p { margin: 0; }
+    .serif { font-family: Georgia, "Times New Roman", serif; }
+    .shell { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+
+    .hero {
+      min-height: 100svh;
+      display: grid;
+      align-items: end;
+      color: #ffffff;
+      padding: 74px 0 44px;
+      position: relative;
+      background:
+        linear-gradient(90deg, rgba(7,15,12,0.92), rgba(7,15,12,0.48)),
+        url("https://www.wellbeing365.com.au/wp-content/uploads/2024/01/Layer-6.jpg") center/cover;
+    }
+    .hero:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.72));
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 28px;
+      align-items: end;
+    }
+    .logos {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .logos img {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(255,255,255,0.7);
+      padding: 7px 10px;
+      border-radius: 8px;
+    }
+    .divider { width: 42px; height: 1px; background: rgba(255,255,255,0.42); }
+    .eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.76);
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-size: clamp(3.2rem, 7.4vw, 6.4rem);
+      line-height: 0.94;
+      max-width: 940px;
+      margin-bottom: 18px;
+      letter-spacing: 0;
+    }
+    .hero p {
+      font-size: clamp(1rem, 1.8vw, 1.18rem);
+      line-height: 1.58;
+      color: rgba(255,255,255,0.84);
+      max-width: 790px;
+    }
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 800;
+      transition: transform 0.22s ease, background 0.22s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: #ffffff; color: var(--dark); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #ffffff;
+    }
+    .hero-panel {
+      padding: 24px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    }
+    .hero-panel h3 { margin-bottom: 14px; font-size: 1.08rem; }
+    .hero-list { display: grid; gap: 12px; }
+    .hero-item {
+      display: grid;
+      grid-template-columns: 10px 1fr;
+      gap: 12px;
+      color: rgba(255,255,255,0.86);
+      line-height: 1.45;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      margin-top: 7px;
+    }
+
+    .section { padding: 88px 0; }
+    .section-dark {
+      background: linear-gradient(180deg, #16231d 0%, #0d1511 100%);
+      color: #ffffff;
+    }
+    .head {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .kicker {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 900;
+    }
+    .head h2, .panel h2 {
+      font-size: clamp(2rem, 4vw, 3.8rem);
+      line-height: 1;
+      max-width: 920px;
+      letter-spacing: 0;
+    }
+    .head p {
+      max-width: 880px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+    .section-dark .head p { color: rgba(255,255,255,0.72); }
+    .intro {
+      display: grid;
+      grid-template-columns: 1.03fr 0.97fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+    .panel, .card, .proof-strip, .gallery-card, .step, .quote, .cta-panel, .commercial-card {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(255,255,255,0.72);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .panel { padding: 30px; }
+    .panel p {
+      color: #404842;
+      font-size: 1.03rem;
+      line-height: 1.65;
+    }
+    .panel h2 { margin: 10px 0 16px; }
+    .visual {
+      min-height: 390px;
+      overflow: hidden;
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(12,20,16,0.06), rgba(12,20,16,0.55)),
+        url("https://www.wellbeing365.com.au/wp-content/uploads/2021/09/11.-Digital-X-rays.jpg") center/cover;
+    }
+    .visual-badge {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      padding: 18px 20px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.16);
+      color: #ffffff;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    .visual-badge p { color: rgba(255,255,255,0.78); margin-top: 6px; }
+    .proof-strip {
+      padding: 22px 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 22px;
+    }
+    .proof-strip div {
+      padding-right: 14px;
+      border-right: 1px solid rgba(23,25,23,0.1);
+    }
+    .proof-strip div:last-child { border-right: 0; }
+    .proof-strip strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.12rem;
+    }
+    .proof-strip p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .wedge {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .quote {
+      padding: 30px;
+      background: linear-gradient(135deg, rgba(95,147,135,0.16), rgba(184,150,93,0.18));
+    }
+    .quote blockquote {
+      margin: 0;
+      font-size: clamp(1.65rem, 3vw, 2.7rem);
+      line-height: 1.1;
+    }
+    .quote cite {
+      display: block;
+      margin-top: 18px;
+      color: var(--muted);
+      font-style: normal;
+      line-height: 1.5;
+    }
+    .decision-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .decision {
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+      border-radius: 8px;
+    }
+    .decision strong { display: block; margin-bottom: 6px; }
+    .decision p { font-size: 0.96rem; line-height: 1.55; color: var(--muted); }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .role-card {
+      padding: 24px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: #ffffff;
+    }
+    .role-card h3 { margin-bottom: 10px; font-size: 1.18rem; }
+    .role-card p { color: rgba(255,255,255,0.74); line-height: 1.55; }
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 14px 0;
+    }
+    .pill {
+      padding: 7px 10px;
+      border-radius: 7px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.82);
+    }
+    .small-label {
+      display: block;
+      margin-top: 14px;
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr 0.85fr;
+      gap: 16px;
+    }
+    .gallery-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 380px;
+    }
+    .gallery-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .gallery-card:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 38%, rgba(0,0,0,0.74));
+    }
+    .caption {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      z-index: 2;
+      color: #ffffff;
+    }
+    .caption h3 { margin-bottom: 6px; }
+    .caption p { color: rgba(255,255,255,0.78); line-height: 1.45; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+    .step {
+      padding: 22px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.13);
+      color: #ffffff;
+      box-shadow: none;
+    }
+    .step span {
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      font-weight: 900;
+    }
+    .step h3 { margin: 18px 0 10px; font-size: 1.04rem; }
+    .step p { color: rgba(255,255,255,0.72); line-height: 1.55; font-size: 0.95rem; }
+
+    .commercial-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .commercial-card { padding: 24px; }
+    .commercial-card strong {
+      display: block;
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+    }
+    .commercial-card p { color: var(--muted); line-height: 1.58; }
+    .cta-panel {
+      padding: 34px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: center;
+    }
+    .cta-panel p {
+      max-width: 800px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .cta-panel h2 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1;
+      margin: 10px 0 14px;
+    }
+    .link-dark {
+      background: rgba(23,25,23,0.06);
+      color: var(--ink);
+      border: 1px solid rgba(23,25,23,0.12);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid, .intro, .wedge, .cta-panel { grid-template-columns: 1fr; }
+      .proof-strip, .grid-3, .gallery, .steps, .commercial-grid { grid-template-columns: 1fr; }
+      .hero { min-height: auto; padding-top: 110px; }
+      .gallery-card { min-height: 320px; }
+      .proof-strip div { border-right: 0; border-bottom: 1px solid rgba(23,25,23,0.1); padding-bottom: 12px; }
+      .proof-strip div:last-child { border-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="shell hero-grid">
+      <div>
+        <div class="logos">
+          <img src="https://www.whitehorseai.ai/whlogo.png" alt="WhiteHorse AI">
+          <span class="divider"></span>
+          <img src="https://www.wellbeing365.com.au/wp-content/uploads/2020/07/logo.png" alt="Wellbeing Chiropractic">
+        </div>
+        <div class="eyebrow">Prepared for Robbie Hunt, Wellbeing365</div>
+        <h1 class="serif">Turn scattered AI experiments into owned operating infrastructure.</h1>
+        <p>Wellbeing365 does not need another chatbot pitch. You already have AI inside the business. The opportunity is to turn the internal audit, marketing data, call workflows, and head-office knowledge into a governed system that Wellbeing owns and can scale across clinics.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#wedge">Recommended first move</a>
+          <a class="btn btn-secondary" href="#usecases">See the workflows</a>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <h3>What stood out from the call</h3>
+        <div class="hero-list">
+          <div class="hero-item"><span class="dot"></span><span>You have already run the first internal audit. The missing layer is implementation architecture.</span></div>
+          <div class="hero-item"><span class="dot"></span><span>Head office is using Claude, ChatGPT and OpenAI, but the knowledge is fragmented.</span></div>
+          <div class="hero-item"><span class="dot"></span><span>Patient and clinical data should not be the first playground. The first win should be high-value and low clinical risk.</span></div>
+          <div class="hero-item"><span class="dot"></span><span>The partner model needs to be transparent: no token margin games, no upside clipping, no black box.</span></div>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <section class="section" id="diagnosis">
+    <div class="shell">
+      <div class="intro">
+        <div class="panel">
+          <div class="kicker">The diagnosis</div>
+          <h2 class="serif">The risk is not being late to AI. It is letting AI grow sideways.</h2>
+          <p>Wellbeing Chiropractic publicly positions itself as one of Australia's largest chiropractic groups, with more than 50 locations across Melbourne, Sydney and Brisbane. On the call, you gave the sharper operating reality: 55 clinics across three states, roughly eight key head-office leaders, and about 100 staff across repeated clinic roles.</p>
+          <p style="margin-top:14px;">That is exactly the kind of business where AI can either become leverage or clutter. If each department keeps its own prompts, tools, Upwork builds, call systems and data experiments, the company pays for activity without building an owned operating layer.</p>
+        </div>
+        <div class="panel visual">
+          <div class="visual-badge">
+            <strong>Healthcare scale changes the brief.</strong>
+            <p>The right first project should avoid clinical data, prove commercial value quickly, and create a structure the rest of the company can trust.</p>
+          </div>
+        </div>
+      </div>
+      <div class="proof-strip">
+        <div><strong>55 clinics</strong><p>Call context: Robbie described Wellbeing365 as 55 clinics across three states.</p></div>
+        <div><strong>50+ public locations</strong><p>Wellbeing's website positions the group across Melbourne, Sydney and Brisbane.</p></div>
+        <div><strong>8 key leaders</strong><p>Finance, marketing, operations, property and other head-office owners are the right audit layer.</p></div>
+        <div><strong>AI already in use</strong><p>Claude, ChatGPT, OpenAI, Replit, outbound AI calling and inbound call handling were all discussed.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="wedge">
+    <div class="shell wedge">
+      <div class="quote">
+        <div class="kicker">Recommended first move</div>
+        <blockquote class="serif">Do not start with patient data. Do not start with a company-wide chatbot. Start with a Marketing Intelligence and Reactivation pilot.</blockquote>
+        <cite>It is high upside, measurable quickly, and sits outside the most sensitive clinical data layer.</cite>
+      </div>
+      <div class="panel">
+        <div class="kicker">Why this wedge</div>
+        <h2 class="serif">The fastest proof is where spend, speed and conversion meet.</h2>
+        <p>You mentioned serious spend across Meta and Google, and the cost of letting a poor ad or campaign setting run for a week. That is the commercial wedge. If AI can reduce wasted spend, tighten creative feedback, surface campaign issues faster, and trigger approved reactivation workflows, the value is visible before any broader rollout.</p>
+        <div class="decision-list">
+          <div class="decision"><strong>Start outside clinical data.</strong><p>Use marketing, lead, call and campaign data first. This reduces risk while still touching revenue.</p></div>
+          <div class="decision"><strong>Use the audit to rank, not theorise.</strong><p>Your existing spreadsheet becomes the base map. WhiteHorse adds architecture, data boundaries, effort, risk and ROI ranking.</p></div>
+          <div class="decision"><strong>Build something Wellbeing can own.</strong><p>The pilot should leave behind prompts, workflows, logs, approval gates and deployment patterns that are not trapped inside a vendor account.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark" id="usecases">
+    <div class="shell">
+      <div class="head">
+        <div class="kicker">High-value workflows</div>
+        <h2 class="serif">What an owned AI operating layer could do first.</h2>
+        <p>These are not generic AI ideas. They are the first workflows implied by the call: visible commercial value, clear approval gates, and a path to scale once the pilot proves itself.</p>
+      </div>
+      <div class="grid-3">
+        <div class="role-card">
+          <h3>Marketing control room</h3>
+          <div class="pill-row"><span class="pill">Meta</span><span class="pill">Google</span><span class="pill">Creative</span></div>
+          <p>Pull campaign performance into a daily AI review, flag wasted spend or creative fatigue, draft recommendations, and route changes for human approval before anything goes live.</p>
+          <span class="small-label">Impact</span>
+          <p>Faster correction cycles, less budget leakage, clearer creative testing, and better head-office visibility.</p>
+        </div>
+        <div class="role-card">
+          <h3>Lead response and reactivation</h3>
+          <div class="pill-row"><span class="pill">Meta forms</span><span class="pill">Lapsed patients</span><span class="pill">Bookings</span></div>
+          <p>Segment unconverted leads and lapsed patients, draft compliant outreach, trigger SMS/email/call tasks, and measure booked appointments by clinic.</p>
+          <span class="small-label">Impact</span>
+          <p>More bookings from existing demand without asking clinic teams to manually chase every list.</p>
+        </div>
+        <div class="role-card">
+          <h3>Call handling economics</h3>
+          <div class="pill-row"><span class="pill">Outbound AI</span><span class="pill">Inbound calls</span><span class="pill">Voice cost</span></div>
+          <p>Compare current outbound AI and inbound call tools against owned alternatives, including conversion rate, cost per minute, failed call handling and handoff quality.</p>
+          <span class="small-label">Impact</span>
+          <p>A practical decision on what to keep, replace, rebuild or integrate rather than more scattered experiments.</p>
+        </div>
+        <div class="role-card">
+          <h3>Shared head-office knowledge layer</h3>
+          <div class="pill-row"><span class="pill">Prompts</span><span class="pill">SOPs</span><span class="pill">Decisions</span></div>
+          <p>Create a common structure for approved prompts, operating notes, department context, and reusable workflows so knowledge stays with Wellbeing when people move on.</p>
+          <span class="small-label">Impact</span>
+          <p>Less fragmentation, less reinvention, and a cleaner path for leaders to use AI consistently.</p>
+        </div>
+        <div class="role-card">
+          <h3>Department workflow map</h3>
+          <div class="pill-row"><span class="pill">Finance</span><span class="pill">Ops</span><span class="pill">Property</span></div>
+          <p>Use the existing internal audit, then interview only key department owners to map repeatable work, systems touched, risk level, and likely ROI.</p>
+          <span class="small-label">Impact</span>
+          <p>A serious implementation queue instead of an endless brainstorming document.</p>
+        </div>
+        <div class="role-card">
+          <h3>Governed rollout playbook</h3>
+          <div class="pill-row"><span class="pill">Approval gates</span><span class="pill">Logs</span><span class="pill">Scale</span></div>
+          <p>Define where AI can act, where it can only recommend, what gets logged, who approves changes, and how each clinic or department is onboarded.</p>
+          <span class="small-label">Impact</span>
+          <p>The difference between a few clever tools and a system the business can responsibly expand.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="brandfit">
+    <div class="shell">
+      <div class="head">
+        <div class="kicker">Brand and business fit</div>
+        <h2 class="serif">A healthcare group with modern clinics needs a modern operating spine.</h2>
+        <p>Wellbeing's public brand is not a tiny local practice. It is a multi-location healthcare network with booking flows, clinic teams, patient communications, paid media, services, X-ray facilities, and operational consistency to protect. The AI layer should match that level of seriousness.</p>
+      </div>
+      <div class="gallery">
+        <div class="gallery-card">
+          <img src="https://www.wellbeing365.com.au/wp-content/uploads/2024/01/Layer-6.jpg" alt="Wellbeing Chiropractic clinic team">
+          <div class="caption"><h3>Network scale</h3><p>50+ public locations means the back-office operating layer matters as much as front-of-house care.</p></div>
+        </div>
+        <div class="gallery-card">
+          <img src="https://www.wellbeing365.com.au/wp-content/uploads/2021/09/12-min.jpeg" alt="Chiropractic adjustment">
+          <div class="caption"><h3>Care stays human</h3><p>The first AI projects should support commercial and operational work, not interfere with clinical judgement.</p></div>
+        </div>
+        <div class="gallery-card">
+          <img src="https://www.wellbeing365.com.au/wp-content/uploads/2021/09/10.-Spinal-Decompression.jpg" alt="Spinal decompression equipment">
+          <div class="caption"><h3>Systems behind care</h3><p>Modern clinical environments need modern data, workflow and approval infrastructure behind them.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark" id="rollout">
+    <div class="shell">
+      <div class="head">
+        <div class="kicker">Implementation path</div>
+        <h2 class="serif">How WhiteHorse AI should take this from audit to pilot proof.</h2>
+        <p>This should feel like a controlled build, not a consultant report that dies in a folder. Each stage should leave Wellbeing with a more useful operating asset.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><span>01</span><h3>Source review</h3><p>Review Robbie's internal audit spreadsheet, current AI tools, marketing/call stack, and existing data boundaries.</p></div>
+        <div class="step"><span>02</span><h3>Leader interviews</h3><p>Speak with the eight or so department owners who actually understand the repeatable head-office work.</p></div>
+        <div class="step"><span>03</span><h3>Opportunity ranking</h3><p>Score each workflow by upside, risk, system access, complexity, speed to proof and rollout value.</p></div>
+        <div class="step"><span>04</span><h3>Pilot build</h3><p>Build the Marketing Intelligence and Reactivation pilot with approval gates, logs and transparent usage costs.</p></div>
+        <div class="step"><span>05</span><h3>Rollout model</h3><p>Turn the pilot into a repeatable pattern for other departments, clinics and support workflows.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="commercial">
+    <div class="shell">
+      <div class="head">
+        <div class="kicker">Commercial path</div>
+        <h2 class="serif">Transparent scope first. Build second. Scale after proof.</h2>
+        <p>Robbie was clear about not wanting a provider that hides margin inside token usage or dresses up simple work as mystery. The commercial model should reflect that.</p>
+      </div>
+      <div class="commercial-grid">
+        <div class="commercial-card"><strong>AI Audit</strong><p>Scope the audit around the existing spreadsheet, head-office interviews, system map, data boundaries, first pilot design and implementation quote. Pricing should be fixed after reviewing the spreadsheet.</p></div>
+        <div class="commercial-card"><strong>Pilot implementation</strong><p>Start with one measurable workflow: marketing intelligence plus reactivation. Build with visible logs, approval gates and a clear usage-cost model.</p></div>
+        <div class="commercial-card"><strong>Network rollout</strong><p>Only scale once the pilot proves commercial value. Rollout can then be priced by workflow, department, practice group or support model.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="cta-panel">
+        <div>
+          <div class="kicker">Next step</div>
+          <h2 class="serif">Send the internal audit spreadsheet. We will turn it into a build map.</h2>
+          <p>The next useful move is not another broad AI chat. It is to review the work you have already done, identify the best first pilot, and come back with a fixed audit scope plus a realistic implementation path.</p>
+        </div>
+        <div class="cta-row" style="margin-top:0;">
+          <a class="btn btn-primary" href="https://www.wellbeing365.com.au/" target="_blank" rel="noreferrer">View Wellbeing365</a>
+          <a class="btn link-dark" href="https://whitehorseai.ai/" target="_blank" rel="noreferrer">View WhiteHorse AI</a>
+          <a class="btn link-dark" href="https://www.tella.tv/video/vid_cmmoi8hqn01fj04if6txs5hgs/view" target="_blank" rel="noreferrer">AI Audit overview</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
